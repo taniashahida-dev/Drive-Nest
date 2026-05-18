@@ -112,7 +112,7 @@ export default function Footer() {
         <div className="my-10 h-px bg-[#0E8388]/20" />
 
         {/* Bottom Area */}
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div className="flex flex-col items-center justify-between gap-3 md:flex-row">
           {/* Copyright */}
           <motion.p
             initial={{ opacity: 0 }}
