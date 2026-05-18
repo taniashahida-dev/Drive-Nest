@@ -45,9 +45,9 @@ const Navbar = () => {
         </div>
       </div>
     ) : ( */}
-      <button className="bg-[#0E8388] text-[#CBE4DE] px-6 py-3 rounded-2xl font-semibold hover:bg-[#2E4F4F] transition">
+      <Link href={'/login'}><button className="bg-[#0E8388] text-[#CBE4DE] px-6 py-3 rounded-2xl font-semibold hover:bg-[#2E4F4F] transition">
         Login
-      </button>
+      </button></Link>
     {/* )} */}
   </div>
 </nav>
