@@ -1,22 +1,29 @@
-// import Image from 'next/image';
+
+'use client'
 
 import Link from 'next/link';
+import Navlink from './Navlink';
+import { useState } from 'react';
 
 
 const Navbar = () => {
+    const [scrolled, setScrolled] = useState(false)
     return (
         <div>
-            <nav className="bg-[#F8F3E1] border-b border-[#E3DBBB] sticky top-0 z-50 shadow-sm">
-  <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-    <div className="flex items-center gap-3">
-      <div className="w-10 h-10 bg-[#41431B] rounded-2xl flex items-center justify-center text-white font-bold text-2xl">🚗</div>
-      <h1 className="text-3xl font-bold tracking-tight text-[#41431B]">DriveFleet</h1>
-    </div>
 
-    <div className="hidden md:flex items-center gap-8 text-[#41431B] font-medium">
-      <Link href="/" className="hover:text-[#AEB784] transition">Home</Link>
-      <a href="/explore" className="hover:text-[#AEB784] transition">Explore Cars</a>
-      <a href="/add-car" className="hover:text-[#AEB784] transition">Add Car</a>
+            <nav className="bg-[#2C3333] border-b border-[#2E4F4F]      fixed top-0 left-0 right-0 z-[1000] px-4 pt-3">
+
+
+  <div className={`max-w-7xl mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? "bg-darker/90 backdrop-blur-2xl shadow-sm shadow-[#2E4F4F]" : "bg-darker/40 backdrop-blur-md  "}`}>
+   
+      <h1 className="text-4xl font-bold tracking-tight text-[#0E8388]">DriveFleet</h1>
+    
+
+    <div className="hidden md:flex items-center gap-8 text-[#CBE4DE] font-medium">
+      <Navlink href="/" className="hover:text-[#0E8388] transition">Home</Navlink>
+      <Navlink href="/explore" >Explore Cars</Navlink>
+      <Navlink href="/add-car" >Add Car</Navlink>
+      <Navlink href="/bookings" >Bookings</Navlink>
     </div>
 
     {/* Auth Section */}
@@ -38,7 +45,7 @@ const Navbar = () => {
         </div>
       </div>
     ) : ( */}
-      <button className="bg-[#41431B] text-white px-6 py-3 rounded-2xl font-semibold hover:bg-black transition">
+      <button className="bg-[#0E8388] text-[#CBE4DE] px-6 py-3 rounded-2xl font-semibold hover:bg-[#2E4F4F] transition">
         Login
       </button>
     {/* )} */}
