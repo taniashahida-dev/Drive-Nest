@@ -5,9 +5,10 @@ import Link from 'next/link';
 import React from 'react';
 
 const CarCards = ({data}) => {
-    console.log(data)
+    // console.log(data)
     const {_id,availability, name,image,carType,
 dailyRentPrice}= data
+// console.log(_id)
     return (
         <div>
              <div

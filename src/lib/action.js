@@ -3,7 +3,7 @@ export const getAllCars = async()=>{
     return res.json()
 }
 export const getCarsDetails = async(id)=>{
-    const res =await fetch(``)
+    const res =await fetch(`${process.env.SERVER_URL}/explore/${id}`)
     return res.json()
 }
 export const getAvailableCars = async()=>{
