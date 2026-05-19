@@ -130,13 +130,8 @@ export default function LoginPage() {
 
             {/* Google Button */}
             <button
-              whileHover={{
-                scale: 1.02,
-              }}
-              whileTap={{
-                scale: 0.98,
-              }}
-              className="flex h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#0E8388]/10 bg-[#2C3333] text-[#CBE4DE] transition-all hover:border-[#0E8388]/30 hover:bg-[#2C3333]/80"
+             
+              className="flex h-14 w-full items-center justify-center gap-3 rounded-xl border border-[#0E8388]/10 bg-[#2C3333] text-[#CBE4DE] transition-all hover:border-[#0E8388]/30 hover:bg-[#2C3333]/80 hover:mb-10"
             >
               <GrGoogle size={20}
                 className="text-[#0E8388]"/>
@@ -147,7 +142,7 @@ export default function LoginPage() {
 
           {/* Footer */}
           <p className="mt-8 text-center text-sm text-[#CBE4DE]/50">
-            Don't have an account?{" "}
+            Don`t have an account?
             <Link
               href="/register"
               className="font-semibold text-[#0E8388] transition hover:text-[#12a0a5]"
