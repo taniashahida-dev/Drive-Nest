@@ -12,7 +12,9 @@ const AvailableCars = async () => {
     
      <div className="flex justify-between items-center">
          <h2 className=" text-4xl font-bold text-[#CBE4DE]">
-       Available Cars
+       Available <span className="text-[#0E8388]">
+          Cars
+          </span>
       </h2>
      <Link href={'/explore'}> <p className="text-[#0E8388] cursor-pointer text-xl flex items-center gap-1 hover:text-[#2E4F4F] ">See All <span><FaArrowRight /></span> </p></Link>
      </div>

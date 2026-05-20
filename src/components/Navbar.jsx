@@ -144,7 +144,7 @@ const Navbar = () => {
                                         src={user?.image || "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"}
                                         width={45}
                                         height={45}
-                                        className="rounded-full object-cover"
+                                        className="rounded-full w-full h-auto "
                                         alt="user"
                                     />
 

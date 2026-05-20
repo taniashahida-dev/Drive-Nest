@@ -10,6 +10,10 @@ export const getAvailableCars = async()=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/available-cars`)
     return res.json()
 }
+export const getBookingData = async()=>{
+    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`)
+    return res.json()
+}
 
 export const PostbookingData = async (bookingData) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`, {

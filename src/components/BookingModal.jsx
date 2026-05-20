@@ -12,6 +12,12 @@ function BookingModal({ car, isOpen, onClose }) {
   const [specialNote, setSpecialNote] = useState("");
   const [isBooking, setIsBooking] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [bookingDate, setBookingDate] =
+  useState(
+    new Date()
+      .toISOString()
+      .split("T")[0]
+  );
 
   if (!isOpen) return null;
  
@@ -26,7 +32,7 @@ const bookingData = {
         dailyRentPrice: car.dailyRentPrice,
         driverNeeded,
         specialNote,
-        bookingDate: new Date().toISOString(),
+        bookingDate,
       }
 
     // TODO: Replace with your actual API call
@@ -143,6 +149,10 @@ const bookingData = {
 
   <input
     type="date"
+     value={bookingDate}
+  onChange={(e) =>
+    setBookingDate(e.target.value)
+  }
       min={new Date().toISOString().split("T")[0]}
     className="w-full rounded-xl px-4 py-3 text-sm font-medium text-[#CBE4DE] outline-none"
     style={{
