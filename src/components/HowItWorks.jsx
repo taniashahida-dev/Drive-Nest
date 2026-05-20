@@ -61,7 +61,7 @@ export default function HowItWorks() {
         {/* Timeline */}
         <div className="relative">
           {/* Base Line */}
-          <div className="absolute top-8 left-0 hidden h-[2px] w-full bg-[#0E8388]/20 md:block" />
+          <div className="absolute top-8 left-0 hidden h-0.5 w-full bg-[#0E8388]/20 md:block" />
 
           {/* Animated Line */}
           <motion.div
@@ -69,11 +69,11 @@ export default function HowItWorks() {
             whileInView={{ width: "100%" }}
             transition={{ duration: 1.5 }}
             viewport={{ once: true }}
-            className="absolute top-8 left-0 hidden h-[2px] bg-[#0E8388] md:block"
+            className="absolute top-8 left-0 hidden h-0.5 bg-[#0E8388] md:block"
           />
 
           {/* Steps */}
-          <div className="grid gap-14 md:grid-cols-4">
+          <div className="grid gap-8 md:gap-14 grid-cols-2 md:grid-cols-4">
             {steps.map((step, index) => {
               const Icon = step.icon
 
