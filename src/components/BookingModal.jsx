@@ -4,6 +4,7 @@ import { useState } from "react";
 import { X, Car, MapPin, Users, Calendar, Shield } from "lucide-react";
 
 import { PostbookingData } from "@/lib/action";
+import { useSession } from "@/lib/auth-client";
 
 
 // ─── Modal Component ───────────────────────────────────────────────
@@ -19,6 +20,11 @@ function BookingModal({ car, isOpen, onClose }) {
       .split("T")[0]
   );
 
+   const { data: session} = useSession();
+     
+      const user = session?.user
+//  console.log(user)
+
   if (!isOpen) return null;
  
 
@@ -26,22 +32,19 @@ function BookingModal({ car, isOpen, onClose }) {
     setIsBooking(true);
 
 const bookingData = {
-        carId: car._id,
-        carName: car.name,
-        carType:car.carType,
-        dailyRentPrice: car.dailyRentPrice,
-        driverNeeded,
-        specialNote,
-        bookingDate,
-      }
+  carId: car._id,
+  carName: car.name,
+  carType: car.carType,
+  dailyRentPrice:
+    car.dailyRentPrice,
+  driverNeeded,
+  specialNote,
+  bookingDate,
 
-    // TODO: Replace with your actual API call
-    // const res = await fetch("/api/bookings", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(bookingData),
-    // });
-    console.log(bookingData)
+  userEmail: user?.email,
+}
+
+    
     const postBooking = await PostbookingData(bookingData)
 
     await new Promise((r) => setTimeout(r, 1200)); // simulate API delay

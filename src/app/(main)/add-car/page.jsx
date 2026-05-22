@@ -1,19 +1,24 @@
 'use client'
 
 import { postUserCars } from "@/lib/action";
+import { useSession } from "@/lib/auth-client";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 
 const AddCarForm = () => {
  const router = useRouter()
+  const { data: session } = useSession()
+const user = session?.user
   const handleSubmit = async(e) => {
-   
+  
 
      e.preventDefault();
 const formdata = new FormData(e.target)
 console.log(formdata)
-const userCar = Object.fromEntries(formdata.entries())
-
+const userCar =  {
+  ...Object.fromEntries(formdata.entries()),
+  userEmail: user?.email,
+}
 const postUserCar = await postUserCars(userCar)
  if (!postUserCar?.acknowledged) {
 

@@ -1,3 +1,7 @@
+'use server'
+import { revalidatePath } from "next/cache"
+
+
 export const getAllCars = async()=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/car`)
     return res.json()
@@ -10,8 +14,12 @@ export const getAvailableCars = async()=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/available-cars`)
     return res.json()
 }
-export const getBookingData = async()=>{
-    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`)
+export const getBookingData = async(email)=>{
+    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${email}`,
+        {
+      cache: "no-store",
+    }
+    )
     return res.json()
 }
 
@@ -28,8 +36,10 @@ export const PostbookingData = async (bookingData) => {
 };
 
 
-export const getUserPostCars = async()=>{
-    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user-cars`)
+export const getUserPostCars = async(email)=>{
+    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user-cars/${email}`,{
+       cache: "no-store"
+    })
     return res.json()
 }
 
@@ -45,3 +55,14 @@ export const postUserCars = async (carData) => {
   return res.json();
 
 };
+
+export const deleteUserCar = async(id)=>{
+const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user-cars/${id}`,{
+  method:"DELETE"
+})
+const data = res.json()
+ if (data.deletedCount > 0) {
+revalidatePath("/my-added-cars")
+      }
+return data
+}
