@@ -28,16 +28,10 @@ export default function HeroSection() {
         transition={{ duration: 2 }}
        className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1503376780353-7e6692767b70')] bg-cover bg-center"
       >
-        <Image
-          src="/car-bg.jpg"
-          alt="Luxury Car"
-          fill
-          priority
-          className="object-cover object-center opacity-25"
-        />
+      
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2C3333]/95 via-[#2E4F4F]/85 to-[#0E8388]/60" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#2C3333]/95 via-[#2E4F4F]/85 to-[#0E8388]/60" />
       </motion.div>
 
       {/* Animated Blur Circles */}

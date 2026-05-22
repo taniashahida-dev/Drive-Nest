@@ -2,8 +2,10 @@
 import { revalidatePath } from "next/cache"
 
 
-export const getAllCars = async()=>{
-    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/car`)
+export const getAllCars = async( search = "", type = "")=>{
+    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/car?search=${search}&type=${type}`,{
+       cache: "no-store",
+    })
     return res.json()
 }
 export const getCarsDetails = async(id)=>{

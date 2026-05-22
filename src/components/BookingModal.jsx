@@ -5,6 +5,8 @@ import { X, Car, MapPin, Users, Calendar, Shield } from "lucide-react";
 
 import { PostbookingData } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 // ─── Modal Component ───────────────────────────────────────────────
@@ -21,6 +23,7 @@ function BookingModal({ car, isOpen, onClose }) {
   );
 
    const { data: session} = useSession();
+   const router = useRouter()
      
       const user = session?.user
 //  console.log(user)
@@ -28,35 +31,50 @@ function BookingModal({ car, isOpen, onClose }) {
   if (!isOpen) return null;
  
 
-  const handleBooking = async () => {
-    setIsBooking(true);
+ const handleBooking = async () => {
 
-const bookingData = {
-  carId: car._id,
-  carName: car.name,
-  carType: car.carType,
-  dailyRentPrice:
-    car.dailyRentPrice,
-  driverNeeded,
-  specialNote,
-  bookingDate,
+  setIsBooking(true);
 
-  userEmail: user?.email,
-}
-
-    
-    const postBooking = await PostbookingData(bookingData)
-
-    await new Promise((r) => setTimeout(r, 1200)); // simulate API delay
-    setIsBooking(false);
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      onClose();
-    }, 2000);
-
-  
+  const bookingData = {
+    carId: car._id,
+    carName: car.name,
+    carType: car.carType,
+    dailyRentPrice: car.dailyRentPrice,
+    driverNeeded,
+    specialNote,
+    bookingDate,
+    userEmail: user?.email,
   };
+
+  try {
+
+    const postBooking =
+      await PostbookingData(bookingData);
+
+    if(postBooking?.acknowledged){
+ toast.success("Booking Confirmed ✅");
+      setSuccess(true);
+
+      setTimeout(() => {
+
+        onClose();
+
+        router.push("/my-bookings");
+
+      }, 1500);
+
+    }
+
+  } catch (error) {
+
+   console.log(error);
+
+  } finally {
+
+    setIsBooking(false);
+
+  }
+};
 
   return (
     // Backdrop — clicking outside closes modal

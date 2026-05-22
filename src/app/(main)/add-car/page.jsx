@@ -31,7 +31,7 @@ const postUserCar = await postUserCars(userCar)
 
     toast.success("Car Added Successfully ✅")
 
-    router.push("/")
+    router.push("/my-added-cars")
   }
 
   
