@@ -8,21 +8,42 @@ export const getAllCars = async( search = "", type = "")=>{
     })
     return res.json()
 }
-export const getCarsDetails = async(id)=>{
-    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/explore/${id}`)
+export const getCarsDetails = async(id,token)=>{
+    const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/explore/${id}`,{
+        headers:{
+          authorization: `Bearer ${token}`|| ''
+        }
+        
+    })
     return res.json()
 }
 export const getAvailableCars = async()=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/available-cars`)
     return res.json()
 }
-export const getBookingData = async(email)=>{
+export const getBookingData = async(email,token)=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${email}`,
         {
       cache: "no-store",
+
+       headers:{
+          authorization: `Bearer ${token}`|| ''
+        }
     }
     )
     return res.json()
+}
+
+export const increaseBookingCount = async (id) => {
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking-count/${id}`,
+    {
+      method: "PATCH"
+    }
+  )
+
+  return res.json()
 }
 
 export const PostbookingData = async (bookingData) => {
@@ -37,10 +58,24 @@ export const PostbookingData = async (bookingData) => {
   return res.json();
 };
 
+export const deleteBooking = async(id)=>{
+const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings/${id}`,{
+  method:"DELETE"
+})
+const data =await res.json()
+ if (data.deletedCount > 0) {
+revalidatePath("/my-bookings")
+      }
+return data
+}
 
-export const getUserPostCars = async(email)=>{
+
+export const getUserPostCars = async(email,token)=>{
     const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user-cars/${email}`,{
-       cache: "no-store"
+       cache: "no-store",
+         headers:{
+          authorization: `Bearer ${token}`|| ''
+        }
     })
     return res.json()
 }
@@ -84,3 +119,4 @@ export const updateUserCar = async(id, updatedCar)=>{
 
   return res.json()
 }
+

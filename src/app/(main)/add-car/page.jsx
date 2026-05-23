@@ -2,7 +2,7 @@
 
 import { postUserCars } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
-import { redirect } from "next/dist/server/api-utils";
+
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 

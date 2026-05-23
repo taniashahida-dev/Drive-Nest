@@ -1,5 +1,3 @@
-
-
 import { getCarsDetails } from "@/lib/action";
 import Image from "next/image";
 import {
@@ -10,11 +8,19 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 
-import BookingModal from "@/components/BookingModal";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+import BookNowButton from "@/components/BookingModal";
 
 const CarDetailPage = async ({ params }) => {
   const { id } = await params;
-  const car = await getCarsDetails(id);
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  //  console.log(token)
+
+  const car = await getCarsDetails(id, token);
 
   return (
     <section className="min-h-screen px-6 py-16 text-[#CBE4DE]">
@@ -31,9 +37,10 @@ const CarDetailPage = async ({ params }) => {
           <div className="overflow-hidden rounded-3xl border border-[#0E8388]/20 bg-[#2E4F4F] shadow-2xl p-4">
             <div className="relative h-75 md:h-125">
               <Image
-                src={car.image}
-                alt={car.name}
+                src={car?.image}
+                alt={car?.name || "Car Image"}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 priority
                 className="object-cover transition duration-500 hover:scale-105 rounded-3xl"
               />
@@ -97,7 +104,7 @@ const CarDetailPage = async ({ params }) => {
                 <FaCalendarAlt className="mb-3 text-2xl text-[#0E8388]" />
                 <p className="text-sm text-[#CBE4DE]/50">Total Bookings</p>
                 <h3 className="mt-1 text-lg font-semibold">
-                  {car.bookingCount}+
+                  {car.bookingCount || 0}+
                 </h3>
               </div>
             </div>
@@ -105,7 +112,7 @@ const CarDetailPage = async ({ params }) => {
             {/* Buttons */}
             <div className="mt-10 flex flex-wrap gap-4">
               {/* ✅ 2. Shudhu ei line ta replace korো — car pass korো */}
-              <BookingModal car={car} />
+              <BookNowButton car={car} />
 
               <button className="rounded-xl border border-[#0E8388]/20 bg-[#2E4F4F] px-8 py-4 font-semibold text-[#CBE4DE] transition-all duration-300 hover:border-[#0E8388]">
                 Add to Wishlist
@@ -115,8 +122,7 @@ const CarDetailPage = async ({ params }) => {
             {/* Bottom Info */}
             <div className="mt-10 border-t border-[#0E8388]/10 pt-6 text-sm text-[#CBE4DE]/50">
               <p>
-                Added by:{" "}
-                <span className="text-[#0E8388]">{car.addedBy}</span>
+                Added by: <span className="text-[#0E8388]">{car.addedBy}</span>
               </p>
               <p className="mt-2">
                 Added at: {new Date(car.addedAt).toLocaleDateString()}

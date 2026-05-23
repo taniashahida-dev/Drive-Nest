@@ -8,7 +8,8 @@ import {
   FaDollarSign,
 } from "react-icons/fa"
 
-const BookingsList = ({booking}) => {
+const BookingsList = ({  booking,
+  handleCancelBooking}) => {
     return (
         <div className="my-4">
           
@@ -115,7 +116,9 @@ const BookingsList = ({booking}) => {
       {/* Footer */}
       <div className="relative z-10 mt-7 flex items-center justify-between border-tpt-5">
         
- <Button className='text-red-600 px-3 py-1 bg-[#CBE4DE] rounded-3xl text-sm' >Delete booking</Button>
+ <Button  onClick={() =>
+    handleCancelBooking(booking._id)
+  } className='text-red-600 px-3 py-1 bg-red-300 border border-red-500 rounded-3xl text-sm font-semibold  hover:bg-red-400 '  >Cencel booking</Button>
         <div className="flex items-center gap-2 rounded-full border border-green-500/20 bg-green-500/10 px-4 py-2">
           <span className="h-2 w-2 rounded-full bg-green-400" />
 

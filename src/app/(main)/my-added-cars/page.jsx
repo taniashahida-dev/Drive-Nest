@@ -1,11 +1,12 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import { useSession } from "@/lib/auth-client"
+import { authClient, useSession } from "@/lib/auth-client"
 import { deleteUserCar, getUserPostCars } from "@/lib/action"
 import UserAddedCarCards from "@/components/UserAddedCarCards"
 import { IdCardIcon } from "lucide-react"
 import toast from "react-hot-toast"
+
 
 
 const MyAddedCars = () => {
@@ -18,15 +19,26 @@ const MyAddedCars = () => {
 
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
+ useEffect(() => {
 
-    if (user?.email) {
+  const loadCars = async () => {
 
-      getUserPostCars(user.email)
-        .then(data => setCars(data))
+    if(user?.email){
+
+      const {token} = await authClient.getToken()
+
+      const data = await getUserPostCars(
+        user.email,
+        token
+      )
+
+      setCars(Array.isArray(data) ? data : [])
     }
+  }
 
-  }, [user])
+  loadCars()
+
+}, [user])
 
   // DELETE FUNCTION
   const handleDelete = async (id) => {

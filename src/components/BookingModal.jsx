@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { X, Car, MapPin, Users, Calendar, Shield } from "lucide-react";
 
-import { PostbookingData } from "@/lib/action";
+import { increaseBookingCount, PostbookingData } from "@/lib/action";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -48,11 +48,17 @@ function BookingModal({ car, isOpen, onClose }) {
 
   try {
 
+    // booking save
     const postBooking =
       await PostbookingData(bookingData);
 
-    if(postBooking?.acknowledged){
- toast.success("Booking Confirmed ✅");
+    if (postBooking?.acknowledged) {
+
+      // increase booking count
+      await increaseBookingCount(car._id);
+
+      toast.success("Booking Confirmed ✅");
+
       setSuccess(true);
 
       setTimeout(() => {
@@ -62,12 +68,13 @@ function BookingModal({ car, isOpen, onClose }) {
         router.push("/my-bookings");
 
       }, 1500);
-
     }
 
   } catch (error) {
 
-   console.log(error);
+    console.log(error);
+
+    toast.error("Booking Failed ❌");
 
   } finally {
 
@@ -75,7 +82,6 @@ function BookingModal({ car, isOpen, onClose }) {
 
   }
 };
-
   return (
     // Backdrop — clicking outside closes modal
     <div
@@ -294,12 +300,37 @@ export default function BookNowButton({ car }) {
 
   return (
     <>
-      <button
-        onClick={() => setModalOpen(true)}
-        className="rounded-xl bg-[#0E8388] px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-[#0c7478]"
-      >
-        Book Now
-      </button>
+     <button
+  onClick={() => {
+    if (
+      car.availability?.toLowerCase() !==
+      "available"
+    ) {
+      toast.error(
+        "This car is currently unavailable ❌"
+      )
+
+      return
+    }
+
+    setModalOpen(true)
+  }}
+  disabled={
+    car.availability?.toLowerCase() !==
+    "available"
+  }
+  className={`rounded-xl px-8 py-4 font-semibold text-white transition-all duration-300 ${
+    car.availability?.toLowerCase() ===
+    "available"
+      ? "bg-[#0E8388] hover:bg-[#0c7478]"
+      : "bg-gray-500 cursor-not-allowed opacity-60"
+  }`}
+>
+  {car.availability?.toLowerCase() ===
+  "available"
+    ? "Book Now"
+    : "Unavailable"}
+</button>
 
       <BookingModal
         car={car}

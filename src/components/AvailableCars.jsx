@@ -10,7 +10,7 @@ const AvailableCars = async () => {
     <div className="overflow-hidden  py-4 md:py-10 px-6 lg:px-16">
 <div className="mx-auto w-11/12 md:w-10/12">
     
-     <div className="flex justify-between items-center">
+     <div className="flex flex-col md:flex-row my-10 space-y-3 md:justify-between items-center">
          <h2 className=" text-4xl font-bold text-[#CBE4DE]">
        Available <span className="text-[#0E8388]">
           Cars

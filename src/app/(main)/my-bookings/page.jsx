@@ -1,34 +1,3 @@
-// import BookingsList from '@/components/BookingsList';
-// import { getBookingData } from '@/lib/action';
-
-// const BookingsPage =async () => {
-//     const bookings = await getBookingData()
-  
- 
-//     // console.log(bookings)
-//     return (
-//         <div className=' my-28 w-11/12 md:10/12 mx-auto' >
-          
-//                  <div className="flex justify-between items-center">
-//          <h2 className="text-2xl md:text-4xl font-bold text-[#CBE4DE]">
-//      Your <span className="text-[#0E8388]">
-//             Bookings
-//           </span>
-//       </h2>
-//     <p className="text-[#0E8388] cursor-pointer text-sm md:text-lg flex items-center gap-1 hover:text-[#2E4F4F] ">({bookings.length}) Bookings found </p>
-//      </div>
-          
-// <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-//     {
-// bookings.map(booking => <BookingsList key={booking._id} booking={booking}></BookingsList>)
-//     }
-// </div>
-
-//         </div>
-//     );
-// };
-
-// export default BookingsPage;
 
 'use client'
 
@@ -38,11 +7,14 @@ from "react"
 import BookingsList
 from "@/components/BookingsList"
 
-import { getBookingData }
+import { deleteBooking, getBookingData }
 from "@/lib/action"
 
-import { useSession }
+import { useSession ,authClient}
 from "@/lib/auth-client"
+
+
+
 
 const BookingsPage = () => {
 
@@ -58,19 +30,51 @@ const BookingsPage = () => {
 
   useEffect(() => {
 
-    if(user?.email){
+const loadBookings = async () => {
 
-      getBookingData(user.email)
-        .then(data =>
-{
-      console.log(data) 
+  if(user?.email){
 
-      setBookings(data) }
+  // const { data } =
+  //   await authClient.getSession()
 
-        )
-    }
+ const { token } =
+  await authClient.getToken()
+  console.log("TOKEN:", token)
 
-  }, [user])
+  const bookingsData =
+    await getBookingData(
+      user.email,
+      token
+    )
+
+  console.log(bookingsData)
+
+  if(Array.isArray(bookingsData)){
+    setBookings(bookingsData)
+  } else {
+    setBookings([])
+  }
+
+  }
+}
+  loadBookings()
+
+}, [user])
+
+  const handleCancelBooking = async (id) => {
+
+  const result = await deleteBooking(id)
+
+  if(result.deletedCount > 0){
+
+    const remainingBookings =
+      bookings.filter(
+        booking => booking._id !== id
+      )
+
+    setBookings(remainingBookings)
+  }
+}
 
   if(isPending){
 
@@ -80,6 +84,8 @@ const BookingsPage = () => {
       </div>
     )
   }
+
+
 
   return (
     <div className='my-28 w-11/12 md:w-10/12 mx-auto'>
@@ -99,18 +105,38 @@ const BookingsPage = () => {
         </p>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+      {
+        bookings.length == 0 ?  <div className="mt-20 rounded-3xl border border-[#0E8388]/20 bg-[#2E4F4F] py-20 text-center">
+
+            <h2 className="text-3xl font-bold text-[#CBE4DE]">
+              No Bookings 
+            </h2>
+
+            <p className="mt-3 text-[#CBE4DE]/50">
+              Your Bookings cars will appear here.
+            </p>
+          </div>:
+<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+
+
 
         {
-          bookings.map(booking => (
-            <BookingsList
-              key={booking._id}
-              booking={booking}
-            />
-          ))
+          Array.isArray(bookings) &&
+bookings.map(booking => (
+  <BookingsList
+    key={booking._id}
+    booking={booking}
+    handleCancelBooking={
+      handleCancelBooking
+    }
+  />
+))
         }
 
       </div>
+      }
+
+      
     </div>
   )
 }

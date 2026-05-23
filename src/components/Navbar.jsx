@@ -8,17 +8,23 @@ import Image from 'next/image';
 import { authClient, useSession } from '@/lib/auth-client';
 import Navlink2 from './NavLink2';
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useRouter } from 'next/navigation';
+
 
 const Navbar = () => {
+    const router = useRouter()
 
     const [open, setOpen] = useState(false)
 
     const { data: session, isPending } = useSession();
     // console.log(session)
     const user = session?.user
+const handleLogOut = async () => {
 
-    
+  await authClient.signOut()
 
+  window.location.href = "/"
+}
     return (
         <div>
 
@@ -46,7 +52,7 @@ const Navbar = () => {
                         </Navlink>
 
                         <Navlink href="/my-bookings">
-                            Bookings
+                             My Bookings
                         </Navlink>
                     </div>
 
@@ -71,7 +77,7 @@ const Navbar = () => {
                                         </span>
                                     </button>
 
-                                    <div className="absolute right-0 mt-1 w-56 justify-center text-center rounded-3xl shadow-xl py-2 hidden group-hover:block border border-[#E3DBBB] ">
+                                    <div className="absolute right-0 mt-1 w-56 justify-center text-center rounded-3xl shadow-xl py-2 px-2 hidden group-hover:block border border-[#E3DBBB] ">
                                         <Navlink2 href="/my-added-cars">
                                             My Added Cars
                                         </Navlink2>
@@ -86,7 +92,7 @@ const Navbar = () => {
 
                                         <hr className="my-2 border-[#E3DBBB]" />
 
-                                        <button  onClick={async () => await authClient.signOut()} className="w-full rounded-3xl px-6 py-3 text-center  text-red-600 hover:bg-red-400 bg-[#CBE4DE]">
+                                        <button  onClick={handleLogOut} className="w-full rounded-3xl px-6 py-3 text-center  text-red-600 hover:bg-red-400 bg-[#CBE4DE]">
                                             Logout
                                         </button>
                                     </div>
@@ -127,7 +133,7 @@ const Navbar = () => {
                         </Navlink>
 
                         <Navlink href="/my-bookings">
-                            Bookings
+                            My Bookings
                         </Navlink>
 
                         <hr className="border-[#2E4F4F]" />
@@ -173,7 +179,7 @@ const Navbar = () => {
                                         Add New Car
                                     </Navlink2>
 
-                                    <button  onClick={async () => await authClient.signOut()} className="w-full rounded-3xl px-6 py-3 text-center  text-red-600 hover:bg-red-400 bg-[#CBE4DE]">
+                                    <button  onClick={handleLogOut} className="w-full rounded-3xl px-6 py-3 text-center  text-red-600 hover:bg-red-400 bg-[#CBE4DE]">
                                         Logout
                                     </button>
                                 </div>
