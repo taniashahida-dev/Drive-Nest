@@ -65,6 +65,9 @@
 
 ---
 
+
 <div align="center">
-Made with ❤️ by <a href="https://github.com/yourusername">Your Name</a> · CAT_05 Assignment · 2026
+
+  Made with ❤️ by <a href="https://www.linkedin.com/in/tania9">Tania</a>
+
 </div>
